@@ -1,5 +1,6 @@
 class Api::V2::PayoutsController < Api::V2::BaseController
   before_action :doorkeeper_authorize!
+  before_action -> { doorkeeper_authorize! :payout_read }
   before_action :set_payout, only: [:show]
 
   def index
@@ -21,7 +22,7 @@ class Api::V2::PayoutsController < Api::V2::BaseController
 
   def set_payout
     @payout = current_user.payouts.find_by(external_id: params[:id])
-    render json: { success: false, message: "Payout not found" }, status: :not_found unless @payout
+    render(json: { success: false, message: "Payout not found" }, status: :not_found) and return unless @payout
   end
 
   def serialize_payout(payout)
@@ -34,5 +35,3 @@ class Api::V2::PayoutsController < Api::V2::BaseController
       processed_at: payout.processed_at&.iso8601,
       payment_processor: payout.payment_processor
     }
-  end
-end
