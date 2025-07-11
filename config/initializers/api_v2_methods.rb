@@ -2,6 +2,26 @@
 
 GUMROAD_API_V2_METHODS = [
   {
+    name: "Payouts",
+    methods: [
+      {
+        type: :get,
+        path: "/payouts",
+        description: "Retrieves all of the payouts for the authenticated user. Available with the 'payout_read' scope.",
+        response_layout: :payouts,
+        curl_layout: :get_payouts,
+        parameters_layout: :get_payouts
+      },
+      {
+        type: :get,
+        path: "/payouts/:id",
+        description: "Retrieves the details of a specific payout. Available with the 'payout_read' scope.",
+        response_layout: :payout,
+        curl_layout: :get_payout
+      }
+    ]
+  },
+  {
     name: "Products",
     methods: [
       {
